@@ -13,18 +13,21 @@ const Tree = ({data})=>{
 	},[data]);
 
 	const renderNodes = (root)=>{
-		const filtered = nodes.filter(child=>
+		// find all the child nodes of the root
+		const childNodes = nodes.filter(child=>
 			child.parent === root.id
 		);						
 
-		if(filtered.length === 0 ){
+		// if there are no children, return
+		if(childNodes.length === 0 ){
 			return undefined;
 		}	
 		
 		return (
 			<>
 				{
-					filtered.map((child)=>
+					// for each child node of the root, find all its child (grand child of root)
+					childNodes.map((child)=>
 					<Node name={child.name}>
 						{renderNodes(child)}
 					</Node>
@@ -35,6 +38,7 @@ const Tree = ({data})=>{
 	}
 
 	const RenderRoots = ()=>{
+		// render the roots and render their children
 		return roots.map((root)=>{
 			return(
 				<Node	name={root.name} id={root.id}>

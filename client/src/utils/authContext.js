@@ -1,14 +1,15 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AuthContext = createContext();
 
+// a global wrapper to use, provides method such as login, logout( not included in this assessment)
+// wrap this around the routes
 const AuthProvider = ({children})=>{
 	
 	const navigate = useNavigate();
 
-	const location = useLocation();
 
 	const [authToken, setAuthToken] = useState(()=>
 		// if there is a token stored, parse the token then return
@@ -24,7 +25,7 @@ const AuthProvider = ({children})=>{
 		await axios(
 			{
 				// add hostname during development
-				url: 'http://localhost:8000/api/login',
+				url: '/api/login',
 				method: 'POST', 
 				data: credentials
 			}
@@ -39,20 +40,15 @@ const AuthProvider = ({children})=>{
 		);
 	}
 
-	// const logout = ()=>{
-	// 	localStorage.removeItem('authToken');
-	// 	setAuthToken(null);
-	// }
-
 	useEffect(() => {
+		// if authtoken is removed, redirect to login
 		if(!authToken){
 			navigate('/login');
 			return
 		}
-		if(location.pathname === '/login'){
-			navigate('/homepage');
-			return;
-		}			
+		// else redirect to homepage
+		navigate('/homepage');
+		return;
 	},[authToken]);
 	
 
@@ -66,6 +62,7 @@ const AuthProvider = ({children})=>{
 }
 
 // custom hook so that we won't have to call useContext again and again;
+// just use const {methodYouWantToUse} = useAuth();
 const useAuth = ()=>{
 	const {login, logout, authToken, setAuthToken} = useContext(AuthContext);
 

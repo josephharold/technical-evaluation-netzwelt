@@ -7,6 +7,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        {/* auth provider allows auth methods globally (login, authTokens)*/}
         <AuthProvider>
           <Routes>
             <Route path='/login' element={<Login/>}></Route>

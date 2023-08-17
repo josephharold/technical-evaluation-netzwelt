@@ -9,7 +9,8 @@ const Homepage = ()=>{
 		const fetchTrees = async()=>{
 			await axios(
 				{
-					url: 'http://localhost:8000/api/tree',
+					// please add hostname during development
+					url: '/api/tree',
 					method: 'GET',
 				}
 			).then(

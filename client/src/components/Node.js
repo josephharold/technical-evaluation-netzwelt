@@ -17,6 +17,7 @@ const Node = ({name, children})=>{
 					children ? 
 					(isActive ? <ChevronDown/>: <ChevronRight/> )
 					:
+					// if doesn't have children, don't display arrows
 					('')
 				}
 				</span>
@@ -26,6 +27,7 @@ const Node = ({name, children})=>{
 			</div>
 			{
 				children &&
+				// if active, then display children, else hide
 					<div className={`${isActive ? 'block ml-8': 'hidden'}`}>
 						<div>
 							{children}
