@@ -1,5 +1,7 @@
 import useForm from "../utils/useForm";
+import { useEffect } from "react";
 import { useAuth } from "../utils/authContext";
+import { useNavigate } from "react-router-dom";
 const Login = ()=>{
 
 	const {formData, handleInputChange} = useForm({
@@ -7,10 +9,14 @@ const Login = ()=>{
 		'password': ''
 	})
 
-	const {login} = useAuth();
+	const navigate = useNavigate('/homepage');
+
+	const {login, authToken} = useAuth();
+
+
 	const handleSubmit = (e)=>{
 		e.preventDefault();
-		
+
 		login(formData);
 	}
 

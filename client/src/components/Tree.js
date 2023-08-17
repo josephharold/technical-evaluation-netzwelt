@@ -1,36 +1,30 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Node from './Node';
 
 const Tree = ({data})=>{
+	const [roots, setRoots] = useState([]);
 
-	const [roots, setRoots] = useState(()=>{
-		// we identify roots based on whether they have a parent or not
-		return data?.filter((e)=>{
-			return e?.parent === null
-		});
-	});
+	const [nodes, setNodes] = useState([]);
 
-	// nodes, are basically the children of the roots
-	const [nodes, setNodes] = useState(data);
+	useEffect(()=>{
+		const roots_ = data.filter((e)=>{return e?.parent ===null});
+		setRoots(roots_);
+		setNodes(data);
+	},[data]);
 
-
-
-	// finds all the children and then renders it
 	const renderNodes = (root)=>{
-		const children = nodes.filter(child=>
+		const filtered = nodes.filter(child=>
 			child.parent === root.id
 		);						
 
-		// if it doesn't have children, return none
-		if(children.length === 0 ){
+		if(filtered.length === 0 ){
 			return undefined;
 		}	
 		
 		return (
 			<>
 				{
-					// for each child find all it's children and render the nodes
-					children.map((child)=>
+					filtered.map((child)=>
 					<Node name={child.name}>
 						{renderNodes(child)}
 					</Node>
@@ -40,8 +34,6 @@ const Tree = ({data})=>{
 		);
 	}
 
-
-	// rendres all the roots
 	const RenderRoots = ()=>{
 		return roots.map((root)=>{
 			return(
@@ -53,9 +45,7 @@ const Tree = ({data})=>{
 	};
 
 	return(
-		<>
-		{RenderRoots()}
-		</>
+		RenderRoots()
 	)
 }
 

@@ -12,7 +12,7 @@ const AuthProvider = ({children})=>{
 
 	const [authToken, setAuthToken] = useState(()=>
 		// if there is a token stored, parse the token then return
-		localStorage.getItem('authtoken')
+		localStorage.getItem('authToken')
 		?
 		JSON.parse(localStorage.getItem('authToken'))
 		:
@@ -49,13 +49,13 @@ const AuthProvider = ({children})=>{
 			navigate('/login');
 			return
 		}
-
-		if(location.pathname ==='/login'){
-			// if user visits /login page while authenticated, navigate back to homepage
+		if(location.pathname === '/login'){
 			navigate('/homepage');
 			return;
-		}
-	}, [authToken]);
+		}			
+	},[authToken]);
+	
+
 
 
 	return(
